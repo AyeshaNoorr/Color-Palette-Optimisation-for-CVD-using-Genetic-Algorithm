@@ -1,39 +1,21 @@
-"""
-CVD Simulation Module
-=====================
-Wraps DaltonLens-Python to provide simulation of color vision deficiencies
-(protanopia, deuteranopia, tritanopia) for palettes and images.
-
-Design choices:
-- Brettel 1997 is the default model because it is the only one of the three
-  major models that handles tritanopia in a principled way.
-- All palette operations work in sRGB [0,1] floats internally, but DaltonLens
-  expects uint8 [0,255], so conversions happen at the boundary.
-- A separate helper handles CIELAB conversions for the fitness function,
-  using colour-science for accuracy.
-"""
 
 import numpy as np
 from daltonlens import simulate
 import colour
 
 
-# ---------------------------------------------------------------------------
-# CVD type registry
-# ---------------------------------------------------------------------------
+
 CVD_TYPES = {
     "protan": simulate.Deficiency.PROTAN,   # red-blind
     "deutan": simulate.Deficiency.DEUTAN,   # green-blind
     "tritan": simulate.Deficiency.TRITAN,   # blue-blind
 }
 
-# Single shared simulator instance — Brettel handles all three deficiencies
+
 _SIMULATOR = simulate.Simulator_Brettel1997()
 
 
-# ---------------------------------------------------------------------------
-# Core simulation
-# ---------------------------------------------------------------------------
+
 def simulate_palette(palette_rgb, cvd_type="deutan", severity=1.0):
     """
     Simulate how a palette is perceived under a given CVD.
@@ -86,9 +68,7 @@ def simulate_image(image_rgb, cvd_type="deutan", severity=1.0):
     return simulated.astype(np.float64) / 255.0 if is_float else simulated
 
 
-# ---------------------------------------------------------------------------
-# Color space conversions (sRGB <-> CIELAB) for the fitness function
-# ---------------------------------------------------------------------------
+
 def srgb_to_lab(rgb):
     """sRGB [0,1] -> CIELAB. Accepts (..., 3) array."""
     xyz = colour.sRGB_to_XYZ(rgb)

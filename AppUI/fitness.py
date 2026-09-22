@@ -14,11 +14,7 @@ Where:
     - τ is the maximum allowed perceptual drift from the original color
       (design fidelity constraint)
 
-The fitness value is the minimum pairwise ΔE across all CVD types being
-considered. Higher is better — the optimizer is maximizing.
 
-Constraint violations are handled via a penalty term so the function can
-be used with both constrained and unconstrained optimizers.
 """
 
 import numpy as np
@@ -26,9 +22,7 @@ from itertools import combinations
 from cvd_module import simulate_palette_lab, delta_e
 
 
-# ---------------------------------------------------------------------------
-# Configuration defaults
-# ---------------------------------------------------------------------------
+
 DEFAULT_TAU = 12.0        # max ΔE drift allowed per color (fidelity threshold)
 PENALTY_WEIGHT = 50.0     # penalty per unit of constraint violation
 DEFAULT_CVD_TYPES = ["protan", "deutan", "tritan"]

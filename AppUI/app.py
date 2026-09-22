@@ -6,11 +6,7 @@ Streamlit front-end for the CVD palette optimiser.
 Run with:
     streamlit run app.py
 
-Expects cvd_module.py, fitness.py, ga.py and fastmath.py to sit next to this
-file. The algorithm itself is untouched — this file only drives it.
 
-Everything technical (thresholds, fidelity budget, GA settings) lives in the
-TUNING block below and never reaches the screen. Change it here.
 """
 
 import threading
@@ -29,9 +25,7 @@ import ga as ga_module
 fastmath.enable()
 
 
-# ═════════════════════════════════════════════════════════════
-# TUNING — developer settings. Not exposed in the UI.
-# ═════════════════════════════════════════════════════════════
+
 CONFLICT_THRESHOLD = 10.0   # ΔE below which two colours count as confusable
 FIDELITY_TAU = 12.0         # max ΔE any one colour may drift from the user's pick
 CVD_TYPES = ["protan", "deutan", "tritan"]
@@ -159,9 +153,7 @@ VISION_ROWS = [
 ]
 
 
-# ─────────────────────────────────────────────────────────────
-# Colour helpers
-# ─────────────────────────────────────────────────────────────
+
 def hex_to_rgb01(hex_str):
     h = hex_str.lstrip("#")
     return np.array([int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4)])
