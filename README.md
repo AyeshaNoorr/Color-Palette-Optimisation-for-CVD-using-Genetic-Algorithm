@@ -16,17 +16,8 @@ little as possible and never by more than `tau`.
     python experiments.py              # full: 30 seeds, ~3 CPU-hours total
     python report.py                   # figures + LaTeX tables -> paper_figures/
 
-Laptop safety:
-- Default workers = half your cores, at most 4, at below-normal priority.
-  If the machine still gets hot or slow, use `--jobs 2` (or `--jobs 1`).
-- Every finished task is saved immediately to `results/<group>.partial`.
-  If anything interrupts the run, rerun the same command: it resumes.
-- `report.py` also works on partial results, so you can build figures
-  while the run is still going.
 
-Time: about 50 minutes with 4 workers, 1.5 hours with 2. Most important
-first: `--only main`, then `--only ablation`, then `--only sensitivity`.
-Short on time: add `--runs 20` (a third faster).
+
 
 ## Repair one palette
 
@@ -97,18 +88,4 @@ Tables use `\cmark`/`\xmark`; add to the preamble:
     \newcommand{\cmark}{\ding{51}}
     \newcommand{\xmark}{\ding{55}}
 
-## Measured on the reference machine (single core)
 
-- Scoring 100 palettes x 4 observers: ~1 ms.
-- One GA stage (10k evaluations, k = 5): 0.36 s. The original code took
-  ~42 s for the same budget with 3 observers (~117x slower).
-- Full repair including escalation and polish: 0.3-2 s per palette.
-
-## Notes
-
-- The old `cvd_module`, `fitness`, `ga`, `fastmath`, `validate` and
-  `visualize` modules are gone. The Streamlit UI should call
-  `problem.Problem` and `optimisers.repair_palette` instead.
-- `preview_quick/` holds figures and tables from a 3-seed quick run so you
-  can see the layout. Do not report these numbers; regenerate from the
-  full run.
